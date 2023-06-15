@@ -30,9 +30,8 @@ public class CustomBootstrap : ICustomBootstrap
     {
         var initGroup = world.GetOrCreateSystemManaged<InitializationSystemGroup>();
 
-        AddSystemManaged<GridInputSystem>(initGroup);
-        AddSystem<BuildGridSystem>(initGroup);
-        AddSystem<GridCleanupSystem>(initGroup);
+        AddSystemManaged<ManagedSystem>(initGroup);
+        AddSystem<UnmanagedSystem>(initGroup);
 
         initGroup.SortSystems();
     }
@@ -41,15 +40,15 @@ public class CustomBootstrap : ICustomBootstrap
     {
         var simultationGroup = world.GetOrCreateSystemManaged<SimulationSystemGroup>();
 
-        AddSystem<GridEventProviderSystem>(simultationGroup);
-        AddSystem<TileSpawnerSystem>(simultationGroup);
-        AddSystemManaged<TileTextSpawnerSystem>(simultationGroup);
+        AddSystemManaged<ManagedSystem>(simultationGroup);
+        AddSystem<UnmanagedSystem>(simultationGroup);
 
         simultationGroup.SortSystems();
 
         var lateSimulation = world.GetOrCreateSystemManaged<LateSimulationSystemGroup>();
 
-        AddSystem<GridEventCleanupSystem>(lateSimulation);
+        AddSystemManaged<ManagedSystem>(lateSimulation);
+        AddSystem<UnmanagedSystem>(lateSimulation);
 
         lateSimulation.SortSystems();
     }
@@ -58,9 +57,8 @@ public class CustomBootstrap : ICustomBootstrap
     {
         var physicsGroup = world.GetOrCreateSystemManaged<PhysicsSystemGroup>();
 
-        AddSystem<SpringSystem>(physicsGroup);
-        AddSystem<MoveTowardsSystem>(physicsGroup);
-        AddSystem<HoverBoardSystem>(physicsGroup);
+        AddSystemManaged<ManagedSystem>(physicsGroup);
+        AddSystem<UnmanagedSystem>(physicsGroup);
 
         physicsGroup.SortSystems();
     }
@@ -68,6 +66,9 @@ public class CustomBootstrap : ICustomBootstrap
     private void AddSystemsToPresentationGroup()
     {
         var presentationGroup = world.GetOrCreateSystemManaged<PresentationSystemGroup>();
+
+        AddSystemManaged<ManagedSystem>(presentationGroup);
+        AddSystem<UnmanagedSystem>(presentationGroup);
 
         presentationGroup.SortSystems();
     }
